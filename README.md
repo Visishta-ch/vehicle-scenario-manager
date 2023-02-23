@@ -34,11 +34,7 @@ https://github.com/Visishta-ch/vehicle-scenario-manager.git
 
 **Start the application**
 
-*npm start*
-
-**Start the json-server**
-
-*json-server --watch db.json --port 3006*
+*npm run dev*
 
 ## Usage
 
