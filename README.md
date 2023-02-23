@@ -11,6 +11,7 @@ This application allows users to create, display, update, and delete scenarios a
 
 ## Technologies
 * React
+* Electron js 
 * Axios for API calls
 * CSS for styling
 * json-server for data storage
@@ -38,7 +39,7 @@ https://github.com/Visishta-ch/vehicle-scenario-manager.git
 
 ## Usage
 
-Once the application is running, you can access it at http://localhost:3000.
+Once the application is running, you can access it at http://localhost:3000 and a desktop window will be opened. Kindly once refresh the window from view tab, if application doesnot open in the window.
 
 You can create, display, update, and delete scenarios and vehicles from the sidebar. When you are ready to start the simulation, select a scenario and click the "Start Simulation" button. The vehicles will start moving based on their direction and speed until the scenario time is up.
 
