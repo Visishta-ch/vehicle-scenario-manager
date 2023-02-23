@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './Home.css';
-import Button from '../../UI/Button';
-import useFetch from '../../customHook/useFetch';
-import Graph from './Graph';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./Home.css";
+import Button from "../../UI/Button";
+import useFetch from "../../customHook/useFetch";
+import Graph from "./Graph";
+import axios from "axios";
 const Home = () => {
-  const [data] = useFetch('http://localhost:3006/scenario');
+  const [data] = useFetch("http://localhost:3006/scenario");
 
-  let existingList = [];
+  
   const [vehicles, setVehicles] = useState([]);
   const [params, setParams] = useState([]);
   const [update, setUpdate] = useState(false);
-  const [stimulation, setStimulation] = useState(false)
-
+  const [stimulation, setStimulation] = useState(false);
+  const [displayResults, setDisplayResults] = useState(false)
   useEffect(() => {
     axios
-      .get(' http://localhost:3006/vehicles')
+      .get(" http://localhost:3006/vehicles")
       .then((res) => setVehicles(res.data))
       .catch((err) => console.log(err));
   }, [update]);
@@ -33,32 +33,37 @@ const Home = () => {
   };
 
   const selectHandler = (e) => {
+    setStimulation(false);
     let id = e.target.value;
-    let url = id.replace(/ /g, '%20');
+    let url = id.replace(/ /g, "%20");
 
     axios
       .get(`http://localhost:3006/vehicles?scenario=${url}`)
       .then((res) => {
         setVehicles(res.data);
         let data = res.data;
-
+        let existingList = [];
         Object.entries(data).forEach((item) => {
           existingList.push({
             direction: item[1].direction,
-            initial_position_X: item[1].initial_position_X,
-            initial_position_Y: item[1].initial_position_Y,
-            speed: item[1].speed,
+            initial_position_X: Number(item[1].initial_position_X),
+            initial_position_Y: Number( item[1].initial_position_Y),
+            speed: Number(item[1].speed),
           });
         });
+        console.log(existingList)
         setParams(existingList);
       })
       .catch((err) => console.log(err));
+      setDisplayResults(true);
   };
 
-  const start = (e) =>{
+  const start = (e) => {
     e.preventDefault();
     setStimulation(true);
-  }
+  };
+
+  console.log(params);
   return (
     <section>
       <div>
@@ -67,13 +72,13 @@ const Home = () => {
       <div className="select">
         <select
           style={{
-            margin: '10px',
-            padding: '10px',
-            position: 'relative',
-            display: 'inline-block',
-            fontSize: '14px',
-            background: 'gray',
-            border: '1px solid lightblue',
+            margin: "10px",
+            padding: "10px",
+            position: "relative",
+            display: "inline-block",
+            fontSize: "14px",
+            background: "gray",
+            border: "1px solid lightblue",
           }}
           onChange={selectHandler}
         >
@@ -85,7 +90,7 @@ const Home = () => {
         </select>
       </div>
 
-      <div style={{ overflowX: 'auto', paddingTop: '35px' }}>
+      {displayResults && <div style={{ overflowX: "auto", paddingTop: "35px" }}>
         <table className="vehicles-table">
           <thead>
             <tr>
@@ -113,7 +118,7 @@ const Home = () => {
                 </td>
                 <td
                   onClick={() => deleteHandler(v.id)}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                 >
                   🗑️
                 </td>
@@ -121,9 +126,9 @@ const Home = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>}
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button to="#" backgroundColor="#1bd27c" onClick={start}>
           Start Stimulation
         </Button>
@@ -131,7 +136,8 @@ const Home = () => {
           Stop Stimulation
         </Button>
       </div>
-      {stimulation ? <Graph positions={params} />: ''}
+
+      {stimulation ? <Graph params={params} /> : ""}
     </section>
   );
 };

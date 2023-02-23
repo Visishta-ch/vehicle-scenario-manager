@@ -5,6 +5,7 @@ import { useParams,useHistory  } from 'react-router-dom'
 import axios from 'axios';
 
 const EditVehicle = () => {
+
     const {id} = useParams();
     const[edit,setEdit] = useState(false)
     const history = useHistory()

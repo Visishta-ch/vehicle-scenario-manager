@@ -38,6 +38,24 @@
       "initial_position_Y": "150",
       "speed": "19",
       "direction": "Downwards"
+    },
+    {
+      "id": "76100952-923e-45f6-8269-0a6310dc3927",
+      "scenario": "my test",
+      "vehicle_name": "bus",
+      "initial_position_X": "12",
+      "initial_position_Y": "34",
+      "speed": "13",
+      "direction": "Downwards"
+    },
+    {
+      "id": "daf36a2b-c6ae-4fda-a86b-674eb01a7136",
+      "scenario": "my test",
+      "vehicle_name": "car",
+      "initial_position_X": "250",
+      "initial_position_Y": "50",
+      "speed": "4",
+      "direction": "Backwards"
     }
   ]
 }

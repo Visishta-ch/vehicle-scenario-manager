@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddVehicle.module.css';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { v4 } from 'uuid';
 import axios from 'axios';
 import Button from '../../UI/Button';
 
-const AddVehicle = () => {
-
+const AddVehiclefromS = () => {
+  /*to get the scnario name from sccenario page  */
+  const location = useLocation();
+  const { scenario_name } = location.state;
+/*setting values to get input from user */
   const [list, setList] = useState([]);
-  /* setting values for getting input from user*/
-  const [scenario, setScenario] = useState('');
   const [vehicle, setVehicle] = useState('');
   const [speed, setSpeed] = useState('');
   const [positionX, setPositionX] = useState('');
@@ -20,7 +21,7 @@ const AddVehicle = () => {
   const history = useHistory();
 
   useEffect(() => {
-    
+    console.log(`http://localhost:3006/scenario`);
     axios
       .get('http://localhost:3006/scenario')
       .then((res) => {
@@ -32,10 +33,8 @@ const AddVehicle = () => {
   const addVehicleHandler = (e) => {
     e.preventDefault();
 
-    
     /*condition check */
     if (
-      scenario.length === 0 ||
       vehicle.length === 0 ||
       positionX.length === 0 ||
       positionY.length === 0 ||
@@ -43,11 +42,10 @@ const AddVehicle = () => {
       direction.length === 0
     ) {
       setError(true);
-      // console.log('fill all fields')
     } else {
       const vehicleDetails = {
         id: v4(),
-        scenario: scenario,
+        scenario: scenario_name,
         vehicle_name: vehicle,
         initial_position_X: positionX,
         initial_position_Y: positionY,
@@ -88,8 +86,8 @@ const AddVehicle = () => {
                 borderRadius: '10px',
                 padding: '3px',
               }}
-              value={scenario}
-              onChange={(e) => setScenario(e.target.value)}
+              value={scenario_name}
+              onChange={(e) => e.target.value}
             >
               {' '}
               <option>Select test</option>
@@ -209,4 +207,4 @@ const AddVehicle = () => {
   );
 };
 
-export default AddVehicle;
+export default AddVehiclefromS;
